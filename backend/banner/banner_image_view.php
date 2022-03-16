@@ -36,7 +36,9 @@ require_once("../includes/navbar.php");
                                     <tr>
                                         <td><?= ++$key ?></td>
                                         <td><img style="max-width: 100px;" src="../../assets/frontend/images/banner/<?= $image['image'] ?>" alt="banner image"></td>
-                                        <td><a href="banner_image_active.php?id=<?= $image['id'] ?>" class="btn btn-sm  <?= ($image['status'] == 1) ? 'btn-success' : 'btn-secondary' ?>"><?= ($image['status'] == 1) ? 'Activated' : 'Deactivated' ?></a></td>
+                                        <td>
+                                            <label class="switch"><input type="checkbox" class="status" data-id="<?= $image['id'] ?>" <?= ($image['status'] == 1) ? 'checked' : '' ?>><span class="slider round"></span></label>
+                                        </td>
                                         <td>
                                             <?php if ($image['status'] == 0 && $admin['role'] >= 2) : ?>
                                                 <button class=" btn btn-danger btn-sm delete" data-id="<?= $image['id'] ?>">Delete</button>
@@ -80,4 +82,9 @@ require_once("../includes/navbar.php");
             }
         })
     });
+
+    $('.status').click(function() {
+        let id = $(this).attr('data-id');
+        document.location.href = 'banner_image_active.php?id=' + id;
+    })
 </script>

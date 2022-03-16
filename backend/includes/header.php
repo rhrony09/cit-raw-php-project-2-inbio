@@ -31,6 +31,7 @@ if (isset($conn)) {
     <link rel="stylesheet" href="<?= url() ?>assets/dashboard/css/starlight.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= url() ?>assets/style.css">
+
 </head>
 
 <body>

@@ -439,6 +439,11 @@ require_once 'includes/header.php';
                         <span class="subtitle">Visit my blog and keep your feedback</span>
                         <h2 class="title">My Blog</h2>
                     </div>
+                    <?php if (mysqli_num_rows($blogs_query) == 0) : ?>
+                        <div class="text-center pt-5" data-aos="fade-up" data-aos-duration="500" data-aos-delay="500" data-aos-once="true">
+                            <span>No Blog found.</span>
+                        </div>
+                    <?php endif ?>
                 </div>
             </div>
             <div class="row row--25 mt--30 mt_md--10 mt_sm--10">
@@ -610,6 +615,10 @@ require_once 'includes/header.php';
     <!-- End Modal Portfolio area -->
     <!-- Modal Blog Body area Start -->
     <?php foreach ($blogs_query as $blog) : ?>
+        <?php
+        $comment_sql = "SELECT * FROM comments WHERE blog_id = $blog[id] and status = 1 ORDER BY id DESC";
+        $comment_query = mysqli_query($conn, $comment_sql);
+        ?>
         <div class="modal fade" id="blog-<?= $blog['id'] ?>" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-news" role="document">
                 <div class="modal-content">
@@ -625,7 +634,7 @@ require_once 'includes/header.php';
                     <div class="modal-body">
                         <img src="assets/frontend/images/blog/<?= $blog['image'] ?>" alt="blog image" class="img-fluid modal-feat-img">
                         <div class="news-details">
-                            <span class="date"><?= date("h:i A | d M Y", strtotime($blog['time'])) ?></span>
+                            <span class="date"><i class="feather-clock"></i> <?= date("h:i A | d M Y", strtotime($blog['time'])) ?> <i class="ml-4 feather-message-square"></i> <?= mysqli_num_rows($comment_query) ?> Comment<?= mysqli_num_rows($comment_query) > 1 ? 's' : '' ?></span>
                             <h2 class="title"><?= $blog['title'] ?></h2>
                             <?= $blog['content'] ?>
                         </div>
@@ -658,12 +667,7 @@ require_once 'includes/header.php';
                         <!-- Comment Section End -->
                         <div class="comments">
                             <h4>Comments</h4>
-                            <?php
-                            $comment_sql = "SELECT * FROM comments WHERE blog_id = $blog[id] and status = 1 ORDER BY id DESC";
-                            $comment_query = mysqli_query($conn, $comment_sql);
-
-                            foreach ($comment_query as $comment) :
-                            ?>
+                            <?php foreach ($comment_query as $comment) : ?>
                                 <!-- Single Comment -->
                                 <div class="single-comment">
                                     <div class="my-3 d-flex justify-content-between">
@@ -695,115 +699,3 @@ require_once 'includes/header.php';
 
 </main>
 <?php require_once 'includes/footer.php'; ?>
-<script>
-    $(document).ready(function() {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        });
-
-        //blogs
-        $(".comment-form").on("submit", function(e) {
-            e.preventDefault();
-            var dataString = $(this).serialize();
-
-            //data validation
-            var name = $(this).find("input[name=name]").val();
-            var email = $(this).find("input[name=email]").val();
-            var comment = $(this).find("textarea[name=comment]").val();
-
-            if (name == '' || email == '' || comment == '') {
-                $(".modal").css("z-index", 1000);
-                Toast.fire({
-                    icon: 'error',
-                    title: "All fields are required"
-                });
-                setTimeout(function() {
-                    $(".modal").css("z-index", 2000)
-                }, 3000);
-            } else {
-                $(this).find(".messasge").html("");
-                $.ajax({
-                    type: "POST",
-                    url: "backend/comments/comments_post.php",
-                    data: dataString,
-                    success: function(data) {
-                        var response = JSON.parse(data);
-                        if (response.status == 'success') {
-                            $(".modal").css("z-index", 1000);
-                            Toast.fire({
-                                icon: 'success',
-                                title: response.message
-                            });
-                            setTimeout(function() {
-                                $(".modal").css("z-index", 2000)
-                            }, 3000);
-                            $(".comment-form").each(function() {
-                                this.reset();
-                            });
-                        } else {
-                            $(".modal").css("z-index", 1000);
-                            Toast.fire({
-                                icon: 'error',
-                                title: response.message
-                            });
-                            setTimeout(function() {
-                                $(".modal").css("z-index", 2000)
-                            }, 3000);
-                        }
-                    }
-                });
-            }
-        });
-
-        //message
-        $("#contact-form").on("submit", function(e) {
-            e.preventDefault();
-            var dataString = $(this).serialize();
-
-            //data validation
-            var name = $("input[name=name]").val();
-            var email = $("input[name=email]").val();
-            var phone = $("input[name=phone]").val();
-            var subject = $("input[name=subject]").val();
-            var message = $("textarea[name=message]").val();
-
-            if (name == '' || email == '' || phone == '' || subject == '' || message == '') {
-                Toast.fire({
-                    icon: 'error',
-                    title: "All fields are required"
-                })
-            } else {
-                $.ajax({
-                    type: "POST",
-                    url: "backend/message/message_post.php",
-                    data: dataString,
-                    success: function(data) {
-                        var response = JSON.parse(data);
-                        if (response.status == 'success') {
-                            Toast.fire({
-                                icon: 'success',
-                                title: response.message
-                            })
-                            $("#contact-form").each(function() {
-                                this.reset();
-                            });
-                        } else {
-                            Toast.fire({
-                                icon: 'error',
-                                title: response.message
-                            })
-                        }
-                    }
-                });
-            }
-        });
-    });
-</script>

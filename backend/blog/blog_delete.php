@@ -10,7 +10,8 @@ if (isset($_GET['id'])) {
         unlink($location);
     }
     $delete_sql = "DELETE FROM blogs WHERE id = $id";
-    if (mysqli_query($conn, $delete_sql)) {
+    $delete_comment = "DELETE FROM comments WHERE blog_id = $id";
+    if (mysqli_query($conn, $delete_sql) && mysqli_query($conn, $delete_comment)) {
         $_SESSION['delete'] = "Blog deleted successfully";
         header("Location: blog_view.php");
     } else {

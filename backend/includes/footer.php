@@ -6,6 +6,7 @@
 <script src="<?= url() ?>assets/dashboard/lib/sweetalert/sweetalert.min.js"></script>
 <script src="<?= url() ?>assets/dashboard/js/starlight.js"></script>
 <script src="<?= url() ?>assets/script.js"></script>
+
 <script>
     <?php if (isset($_SESSION['delete'])) : ?>
         Swal.fire({

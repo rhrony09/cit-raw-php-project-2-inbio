@@ -13677,6 +13677,8 @@ div#featured-project-carousel {
   margin-bottom: 3.8rem;
   border-radius: 10px;
   vertical-align: middle;
+  max-height: 550px;
+  object-fit: cover;
 }
 
 .modal-body .img-fluid {
