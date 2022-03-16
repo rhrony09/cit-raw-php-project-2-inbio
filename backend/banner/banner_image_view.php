@@ -37,7 +37,7 @@ require_once("../includes/navbar.php");
                                         <td><?= ++$key ?></td>
                                         <td><img style="max-width: 100px;" src="../../assets/frontend/images/banner/<?= $image['image'] ?>" alt="banner image"></td>
                                         <td>
-                                            <label class="switch"><input type="checkbox" class="status" data-id="<?= $image['id'] ?>" <?= ($image['status'] == 1) ? 'checked' : '' ?>><span class="slider round"></span></label>
+                                            <label class="switch"><input type="checkbox" class="status" data-id="<?= $image['id'] ?>" <?= ($image['status'] == 1) ? 'checked disabled' : '' ?>><span class="slider round"></span></label>
                                         </td>
                                         <td>
                                             <?php if ($image['status'] == 0 && $admin['role'] >= 2) : ?>

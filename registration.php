@@ -8,7 +8,7 @@ require_once("backend/includes/header.php");
 <div class="d-flex align-items-center justify-content-center bg-sl-primary ht-md-100v">
 
     <div class="login-wrapper wd-300 wd-xs-650 pd-25 pd-xs-40 bg-white">
-        <div class="signin-logo tx-center tx-24 tx-bold tx-inverse">RH Rony</div>
+        <div class="signin-logo tx-center tx-24 tx-bold tx-inverse"><?= $setting['name'] ?></div>
         <div class="tx-center mg-b-30">Fill the form to register a new user.</div>
 
         <form method="POST" action="registration_process.php" enctype="multipart/form-data">
