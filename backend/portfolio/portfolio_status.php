@@ -12,7 +12,7 @@ if (!empty($_GET['id'])) {
     $client = mysqli_fetch_assoc($query);
 
     if ($client['status'] == 0) {
-        if (mysqli_num_rows($check_query) < 4) {
+        if (mysqli_num_rows($check_query) < 6) {
             $update_sql = "UPDATE portfolios SET status=1 WHERE id=$id";
             if (mysqli_query($conn, $update_sql)) {
                 $_SESSION['success'] = 'Portfolio activated successfully.';

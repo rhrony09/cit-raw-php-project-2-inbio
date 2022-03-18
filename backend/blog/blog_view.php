@@ -1,6 +1,6 @@
 <?php
 require_once("../../assets/session.php");
-$sql = "SELECT * FROM blogs";
+$sql = "SELECT * FROM blogs ORDER BY id DESC";
 $query = mysqli_query($conn, $sql);
 require_once("../includes/header.php");
 require_once("../includes/sidebar.php");
