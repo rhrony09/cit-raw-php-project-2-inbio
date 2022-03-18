@@ -53,7 +53,7 @@ require_once("../includes/navbar.php");
                                         <td class="text-center"><?= date('d M y', strtotime($comment['date'])) ?></td>
                                         <?php if ($admin['role'] >= 2) : ?>
                                             <td class="text-center">
-                                                <button type="button" class="btn btn-sm btn-danger delete" data-id="<?= $message['id'] ?>">Delete</button>
+                                                <button type="button" class="btn btn-sm btn-danger delete" data-id="<?= $comment['id'] ?>">Delete</button>
                                             </td>
                                         <?php endif ?>
                                     </tr>
